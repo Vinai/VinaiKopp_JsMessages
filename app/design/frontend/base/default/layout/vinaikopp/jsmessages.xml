@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<layout>
+    <default>
+        <block type="core/template"
+               name="vinaikopp.jsmessages"
+               parent="before_body_end"
+               template="vinaikopp/jsmessages/js.phtml"/>
+    </default>
+</layout>

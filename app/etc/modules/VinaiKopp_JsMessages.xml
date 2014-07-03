@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <VinaiKopp_JsMessages>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Core/>
+            </depends>
+        </VinaiKopp_JsMessages>
+    </modules>
+</config>
