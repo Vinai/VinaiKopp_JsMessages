@@ -3,11 +3,13 @@ var JsMessages = Class.create();
 JsMessages.prototype = {
     initialize: function(data) {
         this.domain = data.domain;
+        this.cookie = data.cookie;
         this.wrapper = '#vinaikopp-jsmessages';
-        this.messages = Mage.Cookies.get('jsmessages');
+        this.messages = Mage.Cookies.get(this.cookie);
         if (this.messages && this.messages !== '-') {
+            var cookie_name = this.cookie;
             [this.domain, '.' + this.domain].each(function(domain) {
-                Mage.Cookies.set('jsmessages', '-', Mage.Cookies.expires, Mage.Cookies.path, domain);
+                Mage.Cookies.set(cookie_name, '-', Mage.Cookies.expires, Mage.Cookies.path, domain);
             });
             document.observe('dom:loaded', this.renderMessages.bind(this));
         }
