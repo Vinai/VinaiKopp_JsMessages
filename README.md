@@ -4,7 +4,7 @@ This extensions aims to be a drop in replacement for the Magento `core/message` 
 
 Facts
 -----
-- Version: check the [config.xml](https://github.com/Vinai/VinaiKopp_JsMessage/blob/master/app/code/community/VinaiKopp/JsMessage/etc/config.xml)
+- Version: check the [config.xml](https://github.com/Vinai/VinaiKopp_JsMessages/blob/master/app/code/community/VinaiKopp/JsMessages/etc/config.xml)
 - Extension key: - This extension is not on Magento Connect (github only) -
 - [Extension on GitHub](https://github.com/Vinai/VinaiKopp_JsMessage)
 - [Direct download link](https://github.com/Vinai/VinaiKopp_JsMessage/zipball/master)
