@@ -1,6 +1,4 @@
 
-delete window.console;
-
 var JsMessages = Class.create();
 JsMessages.prototype = {
     initialize: function(data) {
