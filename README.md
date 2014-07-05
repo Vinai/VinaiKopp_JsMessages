@@ -14,7 +14,7 @@ Description
 This extensions aims to be a drop in replacement for the Magento `core/message` block, causing session splash messages to be rendered client side in the browser using JavaScript.  
 The splash messages are sent using a cookie `jsmessages`.  
 
-This extension probably is mainly useful when implementing some kind of full page cache.
+This extension probably is mainly useful when implementing some kind of full page cache, for example https://github.com/colinmollenhour/Cm_Diehard.
 
 Compatibility
 -------------
