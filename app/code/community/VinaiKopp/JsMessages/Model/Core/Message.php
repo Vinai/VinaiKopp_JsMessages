@@ -27,7 +27,7 @@ class VinaiKopp_JsMessages_Model_Core_Message
         
         if ($json = Mage::getSingleton('core/cookie')->get(self::COOKIE_MESSAGES)) {
             try {
-                $messages = (array) json_decode($messages);
+                $messages = (array) json_decode($json);
             } catch (Exception $e) {}
         }
         return $messages;
