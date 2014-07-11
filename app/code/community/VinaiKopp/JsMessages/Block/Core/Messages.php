@@ -7,6 +7,8 @@
 class VinaiKopp_JsMessages_Block_Core_Messages
     extends Mage_Core_Block_Template
 {
+    private static $_isRendered = false;
+    
     protected function _prepareLayout()
     {
         $this->setTemplate('vinaikopp/jsmessages/messages.phtml');
@@ -45,4 +47,16 @@ class VinaiKopp_JsMessages_Block_Core_Messages
     {
         return $this;
     }
+
+    protected function _toHtml()
+    {
+        // Avoid rendering global_messages AND messages - with JsMessages only one is needed
+        if (self::$_isRendered) {
+            return '';
+        }
+        self::$_isRendered = true;
+        return parent::_toHtml();
+    }
+
+
 } 
