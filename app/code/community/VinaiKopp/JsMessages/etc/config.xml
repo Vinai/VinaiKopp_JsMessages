@@ -16,11 +16,6 @@
             <vinaikopp_jsmessages>
                 <class>VinaiKopp_JsMessages_Model</class>
             </vinaikopp_jsmessages>
-            <core>
-                <rewrite>
-                    <message>VinaiKopp_JsMessages_Model_Core_Message</message>
-                </rewrite>
-            </core>
         </models>
         <helpers>
             <vinaikopp_jsmessages>
@@ -33,12 +28,21 @@
             <controller_action_predispatch>
                 <observers>
                     <vinaikopp_jsmessages>
-                        <type>model</type>
+                        <type>singleton</type>
                         <class>vinaikopp_jsmessages/observer</class>
                         <method>controllerActionPredispatch</method>
                     </vinaikopp_jsmessages>
                 </observers>
             </controller_action_predispatch>
+            <controller_front_send_response_before>
+                <observers>
+                    <vinaikopp_jsmessages>
+                        <type>singleton</type>
+                        <class>vinaikopp_jsmessages/observer</class>
+                        <method>controllerFrontSendResponseBefore</method>
+                    </vinaikopp_jsmessages>
+                </observers>
+            </controller_front_send_response_before>
         </events>
         <layout>
             <updates>

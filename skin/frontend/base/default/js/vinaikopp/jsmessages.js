@@ -5,7 +5,7 @@ JsMessages.prototype = {
         this.domain = data.domain;
         this.cookie = data.cookie;
         this.wrapper = '#vinaikopp-jsmessages';
-        this.messages = Mage.Cookies.get(this.cookie);
+        this.messages = decodeURIComponent(Mage.Cookies.get(this.cookie));
         if (this.messages && this.messages !== '-') {
             var cookie_name = this.cookie;
             [this.domain, '.' + this.domain].each(function(domain) {
@@ -17,8 +17,8 @@ JsMessages.prototype = {
     renderMessages: function()
     {
         var type, messages = JSON.parse(this.messages);
-        
-        for(type in messages) { 
+
+        for(type in messages) {
             if (messages.hasOwnProperty(type) && messages[type].length) {
                 this.renderMessage(type, messages[type]);
             }
@@ -39,7 +39,7 @@ JsMessages.prototype = {
     {
         var elements = $$(this.wrapper + ' .' + type + '-msg');
         if (elements.length) {
-            return elements[0]; 
+            return elements[0];
         }
         return false;
     }
