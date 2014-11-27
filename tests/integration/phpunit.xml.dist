@@ -23,6 +23,6 @@
         strict="false"
         verbose="false">
     <testsuite name="JsMessages Integration Tests">
-        <directory>suite</directory>
+        <directory phpVersion="5.5.0" phpVersionOperator=">=">suite</directory>
     </testsuite>
 </phpunit>
