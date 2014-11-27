@@ -28,11 +28,11 @@ class EdgeToEdgeTest extends JsMessages_Integration_TestCase
     {
         $this->assertNotEquals(Mage_Core_Model_Store::ADMIN_CODE, Mage::app()->getStore()->getCode());
         $testMessage = 'Test Message';
-        $expected = '%7B%22success%22%3A%5B%22' . rawurlencode($testMessage) . '%22%5D%7D';
+        $expected = ['success' => [$testMessage]];
         
         $this->mockCookie->expects($this->once())
             ->method('set')
-            ->with(VinaiKopp_JsMessages_Helper_Data::COOKIE_MESSAGES, $expected);
+            ->with(VinaiKopp_JsMessages_Helper_Data::COOKIE_MESSAGES, rawurlencode(Zend_Json::encode($expected)));
         
         // Trigger the frontend only class rewrites
         Mage::dispatchEvent('controller_action_predispatch', ['controller_action' => new DummyController()]);
@@ -67,11 +67,11 @@ class EdgeToEdgeTest extends JsMessages_Integration_TestCase
         $this->setModelMock('catalog/product', $mockProduct);
 
         $testMessage = "Please specify the product's option(s).";
-        $expected = '%7B%22notice%22%3A%5B%22' . rawurlencode($testMessage) . '%22%5D%7D';
+        $expected = ['notice' => [$testMessage]];
 
         $this->mockCookie->expects($this->once())
             ->method('set')
-            ->with(VinaiKopp_JsMessages_Helper_Data::COOKIE_MESSAGES, $expected);
+            ->with(VinaiKopp_JsMessages_Helper_Data::COOKIE_MESSAGES, rawurlencode(Zend_Json::encode($expected)));
         
         // Will add a notice to the checkout/session messages "Please specify the product's option(s)."
         $this->dispatch('checkout/cart/add', array('product' => 1));
