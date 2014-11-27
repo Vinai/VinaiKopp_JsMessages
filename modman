@@ -1,6 +1,6 @@
 
-app/etc/modules/VinaiKopp_JsMessages.xml app/etc/modules/VinaiKopp_JsMessages.xml
-app/code/community/VinaiKopp/JsMessages app/code/community/VinaiKopp/JsMessages
-app/design/frontend/base/default/template/vinaikopp/jsmessages
-app/design/frontend/base/default/layout/vinaikopp/jsmessages.xml app/design/frontend/base/default/layout/vinaikopp/jsmessages.xml
-skin/frontend/base/default/js/vinaikopp/jsmessages.js skin/frontend/base/default/js/vinaikopp/jsmessages.js
+src/app/etc/modules/VinaiKopp_JsMessages.xml app/etc/modules/VinaiKopp_JsMessages.xml
+src/app/code/community/VinaiKopp/JsMessages app/code/community/VinaiKopp/JsMessages
+src/app/design/frontend/base/default/template/vinaikopp/jsmessages app/design/frontend/base/default/template/vinaikopp/jsmessages
+src/app/design/frontend/base/default/layout/vinaikopp/jsmessages.xml app/design/frontend/base/default/layout/vinaikopp/jsmessages.xml
+src/skin/frontend/base/default/js/vinaikopp/jsmessages.js skin/frontend/base/default/js/vinaikopp/jsmessages.js
