@@ -66,15 +66,15 @@ class EdgeToEdgeTest extends JsMessages_Integration_TestCase
             ->will($this->returnValue(1));
         $this->setModelMock('catalog/product', $mockProduct);
 
-        $testMessage = "Please specify the product's option(s).";
-        $expected = ['notice' => [$testMessage]];
+        $expectedMessage = "Please specify the product's option(s).";
+        $expected = ['notice' => [$expectedMessage]];
 
         $this->mockCookie->expects($this->once())
             ->method('set')
             ->with(VinaiKopp_JsMessages_Helper_Data::COOKIE_MESSAGES, rawurlencode(Zend_Json::encode($expected)));
         
         // Will add a notice to the checkout/session messages "Please specify the product's option(s)."
-        $this->dispatch('checkout/cart/add', array('product' => 1));
+        $this->dispatch('checkout/cart/add', ['product' => 1]);
     }
 } 
 
