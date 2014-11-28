@@ -21,7 +21,7 @@ class VinaiKopp_JsMessages_Model_Observer
 
     public function controllerFrontSendResponseBefore(Varien_Event_Observer $event)
     {
-        // Do not process unless message block rewrite was successful
+        // Do not process unless message block unless rewrite was successful
         if (!$this->rewritten) {
             return;
         }
@@ -37,6 +37,11 @@ class VinaiKopp_JsMessages_Model_Observer
 
     public function controllerFrontSendResponseAfter(Varien_Event_Observer $event)
     {
+        // Do not process unless message block unless rewrite was successful
+        if (!$this->rewritten) {
+            return;
+        }
+        
         $this->clearSessionMessageStorages();
     }
 
