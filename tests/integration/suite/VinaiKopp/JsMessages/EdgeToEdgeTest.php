@@ -24,7 +24,7 @@ class EdgeToEdgeTest extends JsMessages_Integration_TestCase
      * @param string $sessionModelAlias
      * @dataProvider sessionModelClassAliasProvider
      */
-    public function itShouldSetAMessageAddedToASessionModelAsTheMessagesCookie($sessionModelAlias)
+    public function itShouldSetAMessageAddedToASessionModelAsTheMessagesCookieOnAPageRender($sessionModelAlias)
     {
         $this->assertNotEquals(Mage_Core_Model_Store::ADMIN_CODE, Mage::app()->getStore()->getCode());
         $testMessage = 'Test Message';
@@ -41,6 +41,31 @@ class EdgeToEdgeTest extends JsMessages_Integration_TestCase
         $session = Mage::getSingleton($sessionModelAlias);
         $session->addSuccess($testMessage);
         $this->dispatch('/');
+    }
+
+    /**
+     * @test
+     * @param string $sessionModelAlias
+     * @dataProvider sessionModelClassAliasProvider
+     */
+    public function itShouldSetAMessageAddedToASessionModelAsTheMessagesCookieOnARedirect($sessionModelAlias)
+    {
+        $this->assertNotEquals(Mage_Core_Model_Store::ADMIN_CODE, Mage::app()->getStore()->getCode());
+        $testMessage = 'Test Message';
+        $expected = ['success' => [$testMessage]];
+
+        $this->mockCookie->expects($this->once())
+            ->method('set')
+            ->with(VinaiKopp_JsMessages_Helper_Data::COOKIE_MESSAGES, rawurlencode(Zend_Json::encode($expected)));
+
+        // Trigger the frontend only class rewrites
+        Mage::dispatchEvent('controller_action_predispatch', ['controller_action' => new DummyController()]);
+
+        /** @var Mage_Core_Model_Session_Abstract $session */
+        $session = Mage::getSingleton($sessionModelAlias);
+        $session->addSuccess($testMessage);
+        // Will redirect to customer/account/login
+        $this->dispatch('/customer/account/index');
     }
 
     public function sessionModelClassAliasProvider()
