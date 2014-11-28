@@ -6,10 +6,11 @@
  */
 class VinaiKopp_JsMessages_Block_Core_Messages extends Mage_Core_Block_Messages
 {
-    private static $_isRendered = false;
+    private $_isRenderedRegistryKey = 'messages_block_is_rendered';
 
     public function _prepareLayout()
     {
+        $this->_initIsRegisteredRegistryKey();
         $this->setTemplate('vinaikopp/jsmessages/messages.phtml');
         return Mage_Core_Block_Template::_prepareLayout();
     }
@@ -17,10 +18,10 @@ class VinaiKopp_JsMessages_Block_Core_Messages extends Mage_Core_Block_Messages
     public function getGroupedHtml()
     {
         // Avoid rendering global_messages AND messages - with JsMessages only one is needed
-        if (self::$_isRendered) {
+        if ($this->_isRendered()) {
             return '';
         }
-        self::$_isRendered = true;
+        $this->_setIsRenderedToTrue();
 
         return Mage_Core_Block_Template::_toHtml();
     }
@@ -56,5 +57,21 @@ class VinaiKopp_JsMessages_Block_Core_Messages extends Mage_Core_Block_Messages
         $session->addMessage($message);
 
         return $this;
+    }
+
+    private function _initIsRegisteredRegistryKey()
+    {
+        Mage::register($this->_isRenderedRegistryKey, false, true);
+    }
+
+    private function _isRendered()
+    {
+        return Mage::registry($this->_isRenderedRegistryKey);
+    }
+
+    private function _setIsRenderedToTrue()
+    {
+        Mage::unregister($this->_isRenderedRegistryKey);
+        Mage::register($this->_isRenderedRegistryKey, true);
     }
 }
