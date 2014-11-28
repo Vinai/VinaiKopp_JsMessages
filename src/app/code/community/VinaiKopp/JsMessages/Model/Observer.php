@@ -25,71 +25,19 @@ class VinaiKopp_JsMessages_Model_Observer
         if (!$this->rewritten) {
             return;
         }
-
+        
         /** @var Mage_Core_Controller_Varien_Front $front */
         $front = $event->getFront();
         if (!$front instanceof Mage_Core_Controller_Varien_Front) {
             return;
         }
-
-        /** @var Mage_Core_Model_Cookie $cookie */
-        $cookie = Mage::getSingleton('core/cookie');
         
-        /** @var VinaiKopp_JsMessages_Model_MessageStorage $sharedMessageStorage */
-        $sharedMessageStorage = Mage::getSingleton('vinaikopp_jsmessages/messageStorage');
-        
-        $types = array(
-            Mage_Core_Model_Message::ERROR,
-            Mage_Core_Model_Message::WARNING,
-            Mage_Core_Model_Message::NOTICE,
-            Mage_Core_Model_Message::SUCCESS
-        );
-
-        $data = array();
-        $deleteCookie = false;
-
-        $existing = $front->getRequest()->getCookie(VinaiKopp_JsMessages_Helper_Data::COOKIE_MESSAGES);
-        if ($existing === '-' || $existing === 'deleted') {
-            $deleteCookie = true;
-        } elseif (!empty($existing)) {
-            try {
-                $existing = Zend_Json::decode(rawurldecode($existing));
-                if (is_array($existing)) {
-                    foreach ($types as $type) {
-                        if (isset($existing[$type]) && is_array($existing[$type])) {
-                            $data[$type] = $existing[$type];
-                        }
-                    }
-                }
-            } catch (Exception $e) {
-                // NOOP
-            }
-        }
-
-        foreach ($types as $type) {
-            foreach ($sharedMessageStorage->getAllMessagesByType($type) as $message) {
-                /** @var Mage_Core_Model_Message_Abstract $message */
-                $data[$type][] = $message->getText();
-            }
-        }
-
-        $data = array_filter($data);
-
-        if (count($data)) {
-            $cookie->set(VinaiKopp_JsMessages_Helper_Data::COOKIE_MESSAGES, rawurlencode(Zend_Json::encode($data)), 0, null, null, null, false);
-        } elseif ($deleteCookie) {
-            $cookie->delete(VinaiKopp_JsMessages_Helper_Data::COOKIE_MESSAGES);
-        }
+        Mage::helper('vinaikopp_jsmessages/response')->moveMessagesToJsMessagesCookie($front->getRequest());
     }
 
     public function controllerFrontSendResponseAfter(Varien_Event_Observer $event)
     {
-        foreach ($this->getSessionMessageStorages() as $classAlias) {
-            /** @var Mage_Core_Model_Session_Abstract $session */
-            if ($session = Mage::getSingleton($classAlias)) {
-                $session->getMessages(true);
-            }
-        }
+        $this->clearSessionMessageStorages();
     }
 
     private function _rewriteMessageBlock()
@@ -120,5 +68,15 @@ class VinaiKopp_JsMessages_Model_Observer
             'tag/session',
             'wishlist/session',
         );
+    }
+
+    private function clearSessionMessageStorages()
+    {
+        foreach ($this->getSessionMessageStorages() as $classAlias) {
+            /** @var Mage_Core_Model_Session_Abstract $session */
+            if ($session = Mage::getSingleton($classAlias)) {
+                $session->getMessages(true);
+            }
+        }
     }
 }
