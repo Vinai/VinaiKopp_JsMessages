@@ -20,6 +20,7 @@ class TestHelper
     public function resetMagento()
     {
         Mage::reset();
+        unset($_SERVER['REQUEST_METHOD']);
         $this->initMagento();
     }
 
