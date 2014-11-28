@@ -67,10 +67,18 @@ abstract class JsMessages_Integration_TestCase extends PHPUnit_Framework_TestCas
         return Mage::app()->getRequest();
     }
 
+    final protected function dispatchEventForFrontendClassRewrites()
+    {
+        // Trigger the frontend only class rewrites
+        Mage::app()->loadAreaPart(Mage_Core_Model_App_Area::AREA_FRONTEND, Mage_Core_Model_App_Area::PART_EVENTS);
+        Mage::dispatchEvent('controller_action_predispatch', ['controller_action' => new DummyController()]);
+    }
+
     private function disableRedirectToBaseUrl()
     {
         foreach (Mage::app()->getStores(true) as $store) {
             $store->setConfig('web/url/redirect_to_base', 0);
         }
     }
+
 } 

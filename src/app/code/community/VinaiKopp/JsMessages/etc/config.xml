@@ -5,6 +5,7 @@
             <vinaikopp_jsmessages>
                 <class>VinaiKopp_JsMessages_Model</class>
             </vinaikopp_jsmessages>
+            <!-- NOTE: the core/message_collection model is rewritten dynamically on the frontend only -->
         </models>
         <blocks>
             <vinaikopp_jsmessages>

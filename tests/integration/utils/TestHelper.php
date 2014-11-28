@@ -70,5 +70,6 @@ class TestHelper
     {
         require __DIR__ . '/Response.php';
         require __DIR__ . '/Config.php';
+        require __DIR__ . '/../stubs/DummyController.php';
     }
 } 

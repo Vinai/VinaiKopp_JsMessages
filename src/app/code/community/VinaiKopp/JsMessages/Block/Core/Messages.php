@@ -27,35 +27,24 @@ class VinaiKopp_JsMessages_Block_Core_Messages extends Mage_Core_Block_Messages
     }
 
     /**
-     * Add messages to display
+     * Neuter this method
      *
      * @param Mage_Core_Model_Message_Collection $messages
-     *
      * @return Mage_Core_Block_Messages
      */
     public function addMessages(Mage_Core_Model_Message_Collection $messages)
     {
-        /** @var Mage_Core_Model_Session $session */
-        $session = Mage::getSingleton('core/session');
-        foreach ($messages->getItems() as $message) {
-            $session->addMessage($message);
-        }
         return $this;
     }
 
     /**
-     * Adding new message to message collection
+     * Neuter this method
      *
      * @param   Mage_Core_Model_Message_Abstract $message
-     *
      * @return  Mage_Core_Block_Messages
      */
     public function addMessage(Mage_Core_Model_Message_Abstract $message)
     {
-        /** @var Mage_Core_Model_Session $session */
-        $session = Mage::getSingleton('core/session');
-        $session->addMessage($message);
-
         return $this;
     }
 

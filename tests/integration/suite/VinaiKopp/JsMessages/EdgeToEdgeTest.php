@@ -33,9 +33,8 @@ class EdgeToEdgeTest extends JsMessages_Integration_TestCase
         $this->mockCookie->expects($this->once())
             ->method('set')
             ->with(VinaiKopp_JsMessages_Helper_Data::COOKIE_MESSAGES, rawurlencode(Zend_Json::encode($expected)));
-        
-        // Trigger the frontend only class rewrites
-        Mage::dispatchEvent('controller_action_predispatch', ['controller_action' => new DummyController()]);
+
+        $this->dispatchEventForFrontendClassRewrites();
         
         /** @var Mage_Core_Model_Session_Abstract $session */
         $session = Mage::getSingleton($sessionModelAlias);
@@ -57,9 +56,8 @@ class EdgeToEdgeTest extends JsMessages_Integration_TestCase
         $this->mockCookie->expects($this->once())
             ->method('set')
             ->with(VinaiKopp_JsMessages_Helper_Data::COOKIE_MESSAGES, rawurlencode(Zend_Json::encode($expected)));
-
-        // Trigger the frontend only class rewrites
-        Mage::dispatchEvent('controller_action_predispatch', ['controller_action' => new DummyController()]);
+        
+        $this->dispatchEventForFrontendClassRewrites();
 
         /** @var Mage_Core_Model_Session_Abstract $session */
         $session = Mage::getSingleton($sessionModelAlias);
@@ -101,9 +99,6 @@ class EdgeToEdgeTest extends JsMessages_Integration_TestCase
         // Will add a notice to the checkout/session messages "Please specify the product's option(s)."
         $this->dispatch('checkout/cart/add', ['product' => 1]);
     }
+
 } 
 
-class DummyController extends Mage_Core_Controller_Front_Action
-{
-    public function __construct(){}
-}

@@ -12,12 +12,9 @@ class VinaiKopp_JsMessages_Model_Observer
             return;
         }
 
-        $className = Mage::getConfig()->getBlockClassName('vinaikopp_jsmessages/core_messages');
-        if (!$className) {
-            return;
-        }
+        $this->_rewriteMessageBlock();
 
-        Mage::getConfig()->setNode('global/blocks/core/rewrite/messages', $className);
+        $this->_rewriteMessageCollection();
 
         $this->rewritten = true;
     }
@@ -37,10 +34,10 @@ class VinaiKopp_JsMessages_Model_Observer
 
         /** @var Mage_Core_Model_Cookie $cookie */
         $cookie = Mage::getSingleton('core/cookie');
-
-        /** @var Mage_Core_Model_Session $session */
-        $session = Mage::getSingleton('core/session');
-        $messages = $session->getMessages(true);
+        
+        /** @var VinaiKopp_JsMessages_Model_MessageStorage $sharedMessageStorage */
+        $sharedMessageStorage = Mage::getSingleton('vinaikopp_jsmessages/messageStorage');
+        
         $types = array(
             Mage_Core_Model_Message::ERROR,
             Mage_Core_Model_Message::WARNING,
@@ -70,7 +67,7 @@ class VinaiKopp_JsMessages_Model_Observer
         }
 
         foreach ($types as $type) {
-            foreach ($messages->getItemsByType($type) as $message) {
+            foreach ($sharedMessageStorage->getAllMessagesByType($type) as $message) {
                 /** @var Mage_Core_Model_Message_Abstract $message */
                 $data[$type][] = $message->getText();
             }
@@ -82,6 +79,22 @@ class VinaiKopp_JsMessages_Model_Observer
             $cookie->set(VinaiKopp_JsMessages_Helper_Data::COOKIE_MESSAGES, rawurlencode(Zend_Json::encode($data)), 0, null, null, null, false);
         } elseif ($deleteCookie) {
             $cookie->delete(VinaiKopp_JsMessages_Helper_Data::COOKIE_MESSAGES);
+        }
+    }
+
+    private function _rewriteMessageBlock()
+    {
+        $blockClassName = Mage::getConfig()->getBlockClassName('vinaikopp_jsmessages/core_messages');
+        if ($blockClassName) {
+            Mage::getConfig()->setNode('global/blocks/core/rewrite/messages', $blockClassName);
+        }
+    }
+
+    private function _rewriteMessageCollection()
+    {
+        $collectionClassName = Mage::getConfig()->getModelClassName('vinaikopp_jsmessages/core_message_collection');
+        if ($collectionClassName) {
+            Mage::getConfig()->setNode('global/models/core/rewrite/message_collection', $collectionClassName);
         }
     }
 }
