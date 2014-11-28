@@ -82,6 +82,16 @@ class VinaiKopp_JsMessages_Model_Observer
         }
     }
 
+    public function controllerFrontSendResponseAfter(Varien_Event_Observer $event)
+    {
+        foreach ($this->getSessionMessageStorages() as $classAlias) {
+            /** @var Mage_Core_Model_Session_Abstract $session */
+            if ($session = Mage::getSingleton($classAlias)) {
+                $session->getMessages(true);
+            }
+        }
+    }
+
     private function _rewriteMessageBlock()
     {
         $blockClassName = Mage::getConfig()->getBlockClassName('vinaikopp_jsmessages/core_messages');
@@ -96,5 +106,19 @@ class VinaiKopp_JsMessages_Model_Observer
         if ($collectionClassName) {
             Mage::getConfig()->setNode('global/models/core/rewrite/message_collection', $collectionClassName);
         }
+    }
+
+    private function getSessionMessageStorages()
+    {
+        return array(
+            'catalog/session',
+            'catalogsearch/session',
+            'checkout/session',
+            'core/session',
+            'customer/session',
+            'review/session',
+            'tag/session',
+            'wishlist/session',
+        );
     }
 }

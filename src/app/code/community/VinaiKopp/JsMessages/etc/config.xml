@@ -44,6 +44,15 @@
                     </vinaikopp_jsmessages>
                 </observers>
             </controller_front_send_response_before>
+            <controller_front_send_response_after>
+                <observers>
+                    <vinaikopp_jsmessages>
+                        <type>singleton</type>
+                        <class>vinaikopp_jsmessages/observer</class>
+                        <method>controllerFrontSendResponseAfter</method>
+                    </vinaikopp_jsmessages>
+                </observers>
+            </controller_front_send_response_after>
         </events>
         <layout>
             <updates>

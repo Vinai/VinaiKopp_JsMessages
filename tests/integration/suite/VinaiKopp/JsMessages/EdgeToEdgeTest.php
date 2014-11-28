@@ -100,5 +100,25 @@ class EdgeToEdgeTest extends JsMessages_Integration_TestCase
         $this->dispatch('checkout/cart/add', ['product' => 1]);
     }
 
+    /**
+     * @test
+     * @param string $sessionModelAlias
+     * @dataProvider sessionModelClassAliasProvider
+     */
+    public function itShouldClearAllMessagesFromSessions($sessionModelAlias)
+    {
+        $this->dispatchEventForFrontendClassRewrites();
+
+        /** @var Mage_Core_Model_Session_Abstract $session */
+        $session = Mage::getSingleton($sessionModelAlias);
+        $session->addSuccess('Test Message');
+        $session->addError('Test Message');
+        $session->addNotice('Test Message');
+        
+        $this->dispatch('/');
+        
+        $messages = $session->getMessages();
+        $this->assertEmpty($messages->getItems(), "Messages for $sessionModelAlias not empty after dispatch");
+    }
 } 
 
