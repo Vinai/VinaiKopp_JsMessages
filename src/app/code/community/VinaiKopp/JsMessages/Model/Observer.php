@@ -12,6 +12,8 @@ class VinaiKopp_JsMessages_Model_Observer
             return;
         }
 
+        $this->_clearOriginalMessageCollection();
+
         $this->_rewriteMessageBlock();
 
         $this->_rewriteMessageCollection();
@@ -58,6 +60,21 @@ class VinaiKopp_JsMessages_Model_Observer
         $collectionClassName = Mage::getConfig()->getModelClassName('vinaikopp_jsmessages/core_message_collection');
         if ($collectionClassName) {
             Mage::getConfig()->setNode('global/models/core/rewrite/message_collection', $collectionClassName);
+        }
+    }
+
+    /**
+     * Upon initial deployment ensure that old message collection
+     * that was serialised to session isn't used.
+     */
+    private function _clearOriginalMessageCollection()
+    {
+        foreach($this->getSessionMessageStorages() as $sessionType) {
+            $session = Mage::getSingleton($sessionType);
+            $messages = $session->getData('messages');
+            if (get_class($messages) == 'Mage_Core_Model_Message_Collection') {
+                $session->unsetData('messages');
+            }
         }
     }
 
