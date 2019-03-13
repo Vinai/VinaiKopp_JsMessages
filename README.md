@@ -1,3 +1,7 @@
+# This Magento 1 extension is orphaned, unsupported and no longer maintained.
+
+If you use it, you are effectively adopting the code for your own project.
+
 Client Side Message Rendering
 =============================
 This extensions aims to be a drop in replacement for the Magento `core/message` block, causing session splash messages to be rendered client side in the browser using JavaScript.  
